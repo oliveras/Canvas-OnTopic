@@ -39,6 +39,11 @@ namespace OnTopic.AspNetCore.Mvc.Host {
     private readonly            ITopicRepository                _topicRepository;
 
     /*==========================================================================================================================
+    | HIERARCHICAL TOPIC MAPPING SERVICE
+    \-------------------------------------------------------------------------------------------------------------------------*/
+    private readonly IHierarchicalTopicMappingService<NavigationTopicViewModel> _hierarchicalMappingService;
+
+    /*==========================================================================================================================
     | CONSTRUCTOR
     \-------------------------------------------------------------------------------------------------------------------------*/
     /// <summary>
@@ -65,6 +70,14 @@ namespace OnTopic.AspNetCore.Mvc.Host {
       _typeLookupService                                        = new DynamicTopicViewModelLookupService();
       _topicMappingService                                      = new TopicMappingService(_topicRepository, _typeLookupService);
       _                                                         = _topicRepository.Load();
+
+      /*------------------------------------------------------------------------------------------------------------------------
+      | Establish hierarchical topic mapping service
+      \-----------------------------------------------------------------------------------------------------------------------*/
+      _hierarchicalMappingService = new HierarchicalTopicMappingService<NavigationTopicViewModel>(
+        _topicRepository,
+        _topicMappingService
+      );
 
     }
 
@@ -120,6 +133,8 @@ namespace OnTopic.AspNetCore.Mvc.Host {
       | Configure and return appropriate view component
       \-----------------------------------------------------------------------------------------------------------------------*/
       return type.Name switch {
+        nameof(MenuViewComponent) =>
+          new MenuViewComponent(_topicRepository, _hierarchicalMappingService),
         _ => throw new InvalidOperationException($"Unknown view component {type.Name}")
       };
 
