@@ -91,6 +91,8 @@ namespace OnTopic.AspNetCore.Mvc.Host {
       | Configure and return appropriate controller
       \-----------------------------------------------------------------------------------------------------------------------*/
       return type.Name switch {
+        nameof(TopicController) =>
+          new TopicController(_topicRepository, _topicMappingService),
         _ => throw new InvalidOperationException($"Unknown controller {type.Name}")
       };
 
