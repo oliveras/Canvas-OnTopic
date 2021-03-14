@@ -32,8 +32,9 @@ namespace OnTopic.AspNetCore.Mvc.Host {
     /// <param name="configuration">
     ///   The shared <see cref="IConfiguration"/> dependency.
     /// </param>
-    public Startup(IConfiguration configuration) {
+    public Startup(IConfiguration configuration, IWebHostEnvironment webHostEnvironment) {
       Configuration = configuration;
+      HostingEnvironment = webHostEnvironment;
     }
 
     /*==========================================================================================================================
@@ -43,6 +44,14 @@ namespace OnTopic.AspNetCore.Mvc.Host {
     ///   Provides a (public) reference to the application's <see cref="IConfiguration"/> service.
     /// </summary>
     public IConfiguration Configuration { get; }
+
+    /*==========================================================================================================================
+    | PROPERTY: HOSTING ENVIRONMENT
+    \-------------------------------------------------------------------------------------------------------------------------*/
+    /// <summary>
+    ///   Provides a (public) reference to the application's <see cref="IWebHostEnvironment"/> service.
+    /// </summary>
+    public IWebHostEnvironment HostingEnvironment { get; }
 
     /*==========================================================================================================================
     | METHOD: CONFIGURE SERVICES
@@ -63,7 +72,7 @@ namespace OnTopic.AspNetCore.Mvc.Host {
       /*------------------------------------------------------------------------------------------------------------------------
       | Register: Activators
       \-----------------------------------------------------------------------------------------------------------------------*/
-      var activator = new CanvasActivator(Configuration.GetConnectionString("OnTopic"));
+      var activator = new CanvasActivator(Configuration.GetConnectionString("OnTopic"), HostingEnvironment);
 
       services.AddSingleton<IControllerActivator>(activator);
       services.AddSingleton<IViewComponentActivator>(activator);

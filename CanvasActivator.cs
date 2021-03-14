@@ -5,6 +5,7 @@
 \=============================================================================================================================*/
 using System;
 using System.Diagnostics.CodeAnalysis;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.ViewComponents;
@@ -37,6 +38,7 @@ namespace OnTopic.AspNetCore.Mvc.Host {
     private readonly            ITypeLookupService              _typeLookupService;
     private readonly            ITopicMappingService            _topicMappingService;
     private readonly            ITopicRepository                _topicRepository;
+    private readonly            IWebHostEnvironment             _webHostEnvironment;
 
     /*==========================================================================================================================
     | HIERARCHICAL TOPIC MAPPING SERVICE
@@ -54,14 +56,19 @@ namespace OnTopic.AspNetCore.Mvc.Host {
     ///   The constructor is responsible for establishing dependencies with the singleton lifestyle so that they are available
     ///   to all requests.
     /// </remarks>
-    public CanvasActivator(string connectionString) {
+    public CanvasActivator(string connectionString, IWebHostEnvironment webHostEnvironment) {
+
+      /*------------------------------------------------------------------------------------------------------------------------
+      | Verify dependencies
+      \-----------------------------------------------------------------------------------------------------------------------*/
+      Contract.Requires(webHostEnvironment, nameof(webHostEnvironment));
 
       /*------------------------------------------------------------------------------------------------------------------------
       | Initialize Topic Repository
       \-----------------------------------------------------------------------------------------------------------------------*/
+                                _webHostEnvironment             = webHostEnvironment;
       var                       sqlTopicRepository              = new SqlTopicRepository(connectionString);
       var                       cachedTopicRepository           = new CachedTopicRepository(sqlTopicRepository);
-      _                                                         = new PageTopicViewModel();
 
       /*------------------------------------------------------------------------------------------------------------------------
       | Preload repository
