@@ -61,6 +61,14 @@ namespace OnTopic.AspNetCore.Mvc.Host {
         //Add OnTopic support
         .AddTopicSupport();
 
+      /*------------------------------------------------------------------------------------------------------------------------
+      | Register: Activators
+      \-----------------------------------------------------------------------------------------------------------------------*/
+      var activator = new CanvasActivator(Configuration.GetConnectionString("OnTopic"));
+
+      services.AddSingleton<IControllerActivator>(activator);
+      services.AddSingleton<IViewComponentActivator>(activator);
+
     }
 
     /*==========================================================================================================================
