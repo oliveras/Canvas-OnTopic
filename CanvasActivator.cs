@@ -135,6 +135,8 @@ namespace OnTopic.AspNetCore.Mvc.Host {
       return type.Name switch {
         nameof(MenuViewComponent) =>
           new MenuViewComponent(_topicRepository, _hierarchicalMappingService),
+        nameof(PageLevelNavigationViewComponent) =>
+          new PageLevelNavigationViewComponent(_topicRepository, _hierarchicalMappingService),
         _ => throw new InvalidOperationException($"Unknown view component {type.Name}")
       };
 
