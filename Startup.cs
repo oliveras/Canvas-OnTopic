@@ -52,10 +52,14 @@ namespace OnTopic.AspNetCore.Mvc.Host {
     ///   Provides configuration of services. This method is called by the runtime to bootstrap the server configuration.
     /// </summary>
     public void ConfigureServices(IServiceCollection services) {
+
       /*------------------------------------------------------------------------------------------------------------------------
       | Configure: MVC
       \-----------------------------------------------------------------------------------------------------------------------*/
       services.AddControllersWithViews()
+
+        //Add OnTopic support
+        .AddTopicSupport();
 
     }
 
