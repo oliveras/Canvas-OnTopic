@@ -93,6 +93,8 @@ namespace OnTopic.AspNetCore.Mvc.Host {
       return type.Name switch {
         nameof(TopicController) =>
           new TopicController(_topicRepository, _topicMappingService),
+        nameof(SitemapController) =>
+          new SitemapController(_topicRepository),
         _ => throw new InvalidOperationException($"Unknown controller {type.Name}")
       };
 
