@@ -13,6 +13,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="OnTopic.All" Version="5.0.0" />
+    <PackageReference Include="OnTopic.Editor.AspNetCore.All" Version="5.0.0" />
   </ItemGroup>
 
 </Project>

@@ -13,6 +13,8 @@ using OnTopic.AspNetCore.Mvc.Controllers;
 using OnTopic.AspNetCore.Mvc.Host.Components;
 using OnTopic.Data.Caching;
 using OnTopic.Data.Sql;
+using OnTopic.Editor.AspNetCore.Attributes;
+using OnTopic.Editor.AspNetCore.Controllers;
 using OnTopic.Internal.Diagnostics;
 using OnTopic.Lookup;
 using OnTopic.Mapping;
@@ -39,6 +41,7 @@ namespace OnTopic.AspNetCore.Mvc.Host {
     private readonly            ITopicMappingService            _topicMappingService;
     private readonly            ITopicRepository                _topicRepository;
     private readonly            IWebHostEnvironment             _webHostEnvironment;
+    private readonly            StandardEditorComposer          _standardEditorComposer;
 
     /*==========================================================================================================================
     | HIERARCHICAL TOPIC MAPPING SERVICE
@@ -79,6 +82,11 @@ namespace OnTopic.AspNetCore.Mvc.Host {
       _                                                         = _topicRepository.Load();
 
       /*------------------------------------------------------------------------------------------------------------------------
+      | INITIALIZE EDITOR COMPOSER
+      \-----------------------------------------------------------------------------------------------------------------------*/
+      _standardEditorComposer   = new(_topicRepository, _webHostEnvironment);
+
+      /*------------------------------------------------------------------------------------------------------------------------
       | Establish hierarchical topic mapping service
       \-----------------------------------------------------------------------------------------------------------------------*/
       _hierarchicalMappingService = new HierarchicalTopicMappingService<NavigationTopicViewModel>(
@@ -115,6 +123,7 @@ namespace OnTopic.AspNetCore.Mvc.Host {
           new TopicController(_topicRepository, _topicMappingService),
         nameof(SitemapController) =>
           new SitemapController(_topicRepository),
+        nameof(EditorController) => new EditorController(_topicRepository, _topicMappingService),
         _ => throw new InvalidOperationException($"Unknown controller {type.Name}")
       };
 
@@ -139,6 +148,16 @@ namespace OnTopic.AspNetCore.Mvc.Host {
       /*------------------------------------------------------------------------------------------------------------------------
       | Configure and return appropriate view component
       \-----------------------------------------------------------------------------------------------------------------------*/
+
+      //Handle standard topic editor view components
+      if (StandardEditorComposer.IsEditorComponent(type)) {
+        return _standardEditorComposer.ActivateEditorComponent(
+          type,
+          _topicRepository
+        );
+      }
+
+      //Handle project-specific view components
       return type.Name switch {
         nameof(MenuViewComponent) =>
           new MenuViewComponent(_topicRepository, _hierarchicalMappingService),

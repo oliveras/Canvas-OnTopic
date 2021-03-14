@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc.ViewComponents;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using OnTopic.Editor.AspNetCore;
 
 namespace OnTopic.AspNetCore.Mvc.Host {
 
@@ -67,7 +68,10 @@ namespace OnTopic.AspNetCore.Mvc.Host {
       services.AddControllersWithViews()
 
         //Add OnTopic support
-        .AddTopicSupport();
+        .AddTopicSupport()
+
+        //Add OnTopic editor support
+        .AddTopicEditor();
 
       /*------------------------------------------------------------------------------------------------------------------------
       | Register: Activators
@@ -113,6 +117,7 @@ namespace OnTopic.AspNetCore.Mvc.Host {
       | Configure: MVC
       \-----------------------------------------------------------------------------------------------------------------------*/
       app.UseEndpoints(endpoints => {
+        endpoints.MapTopicEditorRoute();
         endpoints.MapTopicRoute("Web");
         endpoints.MapTopicSitemap();
         endpoints.MapControllers();
