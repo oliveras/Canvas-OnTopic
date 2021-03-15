@@ -6,6 +6,7 @@
     <title>@(Model.MetaTitle?? Model.Title?? Model.Key)</title>
     <meta name="keywords" content="@Model.MetaKeywords" />
     <meta name="description" content="@Model.MetaDescription" />
+    <link rel="stylesheet" type="text/css" href="/Shared/Styles/Styles.css" asp-append-version="true" />
     @RenderSection("Head", false)
   </head>
   <body vocab="http://schema.org/" typeof="WebPage">
@@ -35,6 +36,9 @@
       </article>
     </main>
     <!-- /Main Site Content Area -->
+
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
     @RenderSection("Scripts", false)
 
