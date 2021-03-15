@@ -6,6 +6,7 @@
     <title>@(Model.MetaTitle?? Model.Title?? Model.Key)</title>
     <meta name="keywords" content="@Model.MetaKeywords" />
     <meta name="description" content="@Model.MetaDescription" />
+    <link rel="stylesheet" type="text/css" href="/Shared/Styles/Styles.css" asp-append-version="true" />
     @RenderSection("Head", false)
   </head>
   <body vocab="http://schema.org/" typeof="WebPage">
