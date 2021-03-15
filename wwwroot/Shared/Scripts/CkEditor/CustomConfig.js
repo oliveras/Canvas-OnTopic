@@ -68,6 +68,7 @@ CKEDITOR.editorConfig = function(config) {
     }
   ];
   config.toolbarCanCollapse     = true;
+  config.stylesCombo_stylesSet  = 'OnTopicStyleSet:/Shared/Scripts/CkEditor/StylesSet.js';
   config.bodyClass              = 'editor';
 };
 
