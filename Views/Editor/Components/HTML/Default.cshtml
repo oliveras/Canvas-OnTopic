@@ -29,7 +29,8 @@
 <script type="text/javascript">
   CKEDITOR.replace('@Html.IdFor(m => m.Value)', {
     height                      : '@Model.AttributeDescriptor.Height',
-    resize_maxHeight            : '@(Model.AttributeDescriptor.Height+300)'
+    resize_maxHeight            : '@(Model.AttributeDescriptor.Height+300)',
+    customConfig                : '/Shared/Scripts/CkEditor/CustomConfig.js'
   });
 </script>
 
