@@ -22,6 +22,7 @@ CKEDITOR.editorConfig = function(config) {
   config.resize_maxWidth        = '800';
   config.fillEmptyBlocks        = false;
   config.shiftEnterMode         = CKEDITOR.ENTER_BR;
+  config.contentsCss            = '/Shared/Styles/Styles.css';
   config.disableNativeSpellChecker = false;
   config.toolbar                = [
     {
